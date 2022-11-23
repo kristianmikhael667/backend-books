@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthAPI;
 use App\Http\Controllers\Api\BookAPI;
 use App\Http\Controllers\Api\BookBorrowAPI as AdminBookBorrowAPI;
+use App\Http\Controllers\Api\CategoryAPI;
 use App\Http\Controllers\Api\MemberApi as AdminMemberApi;
 use App\Http\Controllers\Api\ReviewBookAPI;
 use App\Http\Controllers\Api\UserAPI;
@@ -24,7 +25,7 @@ Route::middleware('jwt.verify', 'verified')->group(function () {
 });
 
 
-Route::get('imageuser/{filename}', [UserImage::class, 'image']);
+Route::get('post-image/{filename}', [UserImage::class, 'image']);
 Route::post('login', [AuthAPI::class, 'login']);
 
 // books
@@ -32,3 +33,7 @@ Route::get('books/new', [BookAPI::class, 'newsbook']);
 Route::get('books', [BookAPI::class, 'allbooks']);
 Route::get('books/viewer', [BookAPI::class, 'viewersbook']);
 Route::get('books/avgbooks', [BookAPI::class, 'avgreviewbook']);
+
+// Category Books
+Route::get('category', [CategoryAPI::class, 'getCategory']);
+Route::get('product/{id}/category', [CategoryAPI::class, 'getProductbyCat']);
