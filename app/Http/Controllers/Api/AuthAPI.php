@@ -29,6 +29,7 @@ class AuthAPI extends Controller
             return response()->json([
                 'status' => 'error',
                 'success' => false,
+                'code' => 401,
                 'message' => 'Login credentials are invalid.',
             ], 200);
         }
@@ -38,19 +39,22 @@ class AuthAPI extends Controller
             return response()->json([
                 'status' => 'error',
                 'success' => false,
+                'code' => 404,
                 'message' => 'Login credentials are invalid.',
             ], 200);
         }
         $payloadable = [
             'uid' => $getuser->uid,
+            'profile_photo_path' => $getuser->profile_photo_path
         ];
         try {
             if (!$token = JWTAuth::claims($payloadable)->attempt($credentials)) {
                 return response()->json([
                     'status' => 'invalid',
+                    'code' => 400,
                     'success' => false,
                     'message' => 'Login credentials are invalid.',
-                ], 400);
+                ], 200);
             }
 
             // if ($getuser->email_verified_at == null) {
@@ -64,6 +68,7 @@ class AuthAPI extends Controller
             return $credentials;
             return response()->json([
                 'success' => false,
+                'code' => 500,
                 'message' => 'Could not create token.',
             ], 500);
         }
@@ -72,6 +77,7 @@ class AuthAPI extends Controller
         return response()->json([
             'status' => 'success',
             'success' => true,
+            'code' => 200,
             'token' => $token,
             'users' => $getuser,
             'expired' => Carbon::now()->addDays(1)->timestamp

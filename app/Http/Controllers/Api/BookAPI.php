@@ -170,18 +170,21 @@ class BookAPI extends Controller
     {
         try {
             $limit = 10;
-            $posts = Book::whereDate('created_at', Carbon::today())->orderBy('created_at', 'desc')->paginate($limit)->onEachSide(1);
+            // $posts = Book::whereDate('created_at', Carbon::today())->paginate($limit)->onEachSide(1);
+            $posts = DB::table('book')->select(DB::raw('*'))
+                ->whereRaw('Date(created_at) = CURDATE()')->paginate($limit);
 
-            if ($posts['data'] != null) {
+            if ($posts) {
                 return ResponseFormatter::success(
                     $posts,
-                    'Data Books retrieved successfully'
+                    'Data Books retrieved successfully',
+                    200
                 );
             } else {
-                return ResponseFormatter::error(
+                return ResponseFormatter::success(
                     null,
                     'Empty Data Book',
-                    400
+                    404
                 );
             }
         } catch (Exception $e) {
