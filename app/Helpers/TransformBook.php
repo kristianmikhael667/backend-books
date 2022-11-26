@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class TransformBook
 {
-    public static function books($detailbooks)
+    public static function books($detailbooks, $viewer)
     {
         return [
             'uid' => $detailbooks->uid,
@@ -20,7 +20,30 @@ class TransformBook
             'created_at' => $detailbooks->created_at,
             'name_catalog' => $detailbooks->catalog->name_catalog,
             'qty' => $detailbooks->qtybook->qty,
+            'viewer' => $viewer
         ];
+    }
+
+    public static function review($reviewbooks)
+    {
+        try {
+            if ($reviewbooks) {
+                $comment = $reviewbooks->map(function ($item) {
+                    return [
+                        'uid' => $item->uid,
+                        'nameuser' => $item->users['fullname'],
+                        'avatar' => $item->users['profile_photo_path'],
+                        'book_uid' => $item->book_uid,
+                        'comment' => $item->comment,
+                        'time' => $item->created_at,
+                        'total_review' => $item->total_review,
+                    ];
+                });
+                return $comment;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public static function allbooks($books)

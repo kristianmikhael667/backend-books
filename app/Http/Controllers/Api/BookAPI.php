@@ -107,10 +107,13 @@ class BookAPI extends Controller
                 'device' => $device_names
             ]);
 
-            $totalCount = ReviewBook::where('book_uid', $slugBook->uid)
+            $totalCount = ModelsViewBook::where('uid_book', $slugBook->uid)
                 ->count();
             $ratingAVG = ReviewBook::where('book_uid', $slugBook->uid)
                 ->avg('total_review');
+
+            $comment = ReviewBook::where('book_uid', $slugBook->uid)->with(['users'])->orderBy('total_review', 'desc')->orderBy('created_at', 'desc')->get();
+            $commenttr = TransformBook::review($comment);
 
             // rate 5
             $rating5 = ReviewBook::where('book_uid', $slugBook->uid)->where('total_review', 5)->count();
@@ -139,12 +142,14 @@ class BookAPI extends Controller
             // rate 1
             $rating1 = ReviewBook::where('book_uid', $slugBook->uid)->where('total_review', 1)->count();
 
-            $booksdet = TransformBook::books($slugBook);
+            $booksdet = TransformBook::books($slugBook, $totalCount);
 
             $data = [
                 "databook" => $booksdet,
-                "totalCount" => $totalCount,
+                "comment" => $commenttr,
                 "averageRating" => $ratingAVG,
+                "totalCount" => $totalCount,
+                "qty" => $slugBook->qtybook->qty,
                 "ratingstart5" => $rating5,
                 "ratingstart4.5" => $rating4_5,
                 "ratingstart4" => $rating4,
@@ -159,7 +164,7 @@ class BookAPI extends Controller
             if (!$data) {
                 return ResponseFormatter::error($data = null, "Empty data", 404);
             }
-            return ResponseFormatter::success($data, 'Success Get Book');
+            return ResponseFormatter::success($data, 'Success Get Book', 200);
         } catch (Exception $e) {
             dd($e);
             return ResponseFormatter::error($data = null, "Server Error", 500);

@@ -13,7 +13,7 @@ class ReviewBook extends Model
 
     protected $guarded = ['id'];
     protected $table = 'reviewbook';
-    protected $with = ['books'];
+    protected $with = ['books', 'users'];
     public $incrementing = false;
 
     public function bookreview()
@@ -24,6 +24,11 @@ class ReviewBook extends Model
     public function books()
     {
         return $this->belongsTo(Book::class, 'book_uid', 'uid');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_uid', 'uid');
     }
 
     public function reviewer()

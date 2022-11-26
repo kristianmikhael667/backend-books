@@ -80,7 +80,7 @@ class AuthAPI extends Controller
             'code' => 200,
             'token' => $token,
             'users' => $getuser,
-            'expired' => Carbon::now()->addDays(1)->timestamp
+            'expired' => Carbon::now()->addDays(10)->timestamp
         ]);
     }
 
