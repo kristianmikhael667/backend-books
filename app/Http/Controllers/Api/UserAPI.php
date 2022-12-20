@@ -15,7 +15,7 @@ class UserAPI extends Controller
     {
         try {
             $user = Auth::user();
-            $historyBorrow = Bookborrow::where('user_uid', $user->uid)->get();
+            $historyBorrow = Bookborrow::where('user_uid', $user->uid)->orderBy('created_at', 'desc')->get();
             if ($historyBorrow) {
                 $history = $historyBorrow->map(function ($item) {
                     return [

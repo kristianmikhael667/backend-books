@@ -34,7 +34,7 @@ class BookAPI extends Controller
             $checkReview = ReviewBook::where('user_uid', $input['user_uid'])->where('book_uid', $input['book_uid'])->first();
 
             if ($checkReview) {
-                return ResponseFormatter::error($data = null, "You already review", 404);
+                return ResponseFormatter::success($data = null, "You already review", 404);
             }
 
             // Check validation range review
