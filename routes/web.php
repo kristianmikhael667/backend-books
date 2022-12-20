@@ -37,5 +37,7 @@ Route::prefix('administrator')->middleware(['auth:sanctum', 'admin'])->group(fun
     Route::get('/member', [MemberController::class, 'index']);
 
     Route::get('/databook/borrowbook', [BookborrowController::class, 'index']);
+    Route::get('/databook/borrowbook/{id}',[BookborrowController::class,'changestatus']);
+
     Route::get('/databook/returnbook', [BookborrowController::class, 'returnbook']);
 });

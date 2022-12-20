@@ -32,41 +32,82 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel-content">
-                        <h4 class="main-title">Dashboard Book</h4>
+                        <h4 class="main-title">K-Means And Based Filtering Colaboration</h4>
 
 
                         <div class="row merged20 mb-4">
                             <div class="col-lg-12">
                                 <div class="d-widget">
                                     <div class="d-widget-title">
-                                        <h5>Superior Book</h5>
+                                        <h5>Viewer Books</h5>
                                     </div>
                                     <div class="d-widget-content">
                                         <table class="table manage-user table-default table-responsive-md">
                                             <thead>
                                                 <tr>
+                                                    <th>No</th>
+                                                    <th>Cover</th>
                                                     <th>Title Article</th>
-                                                    <th>Category</th>
-                                                    <th>Total Comment</th>
+                                                    <th>Author</th>
+                                                    <th>Viewer</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-
-                                                <tr>
-                                                    <td>apa
-                                                    </td>
-                                                    <td>
-                                                        <h5>apa</h5>
-                                                    </td>
-                                                    <td>apa</td>
-                                                </tr>
-
+                                                @foreach ($books as $no => $item)
+                                                    <tr>
+                                                        <td>{{ $no + 1 }}</td>
+                                                        <td><img width="100" height="100" src="{{env('APP_URL')}}/api/{{$item->cover_book}}" alt="" srcset=""></td>
+                                                        <td>{{ $item->name_book }}
+                                                        </td>
+                                                        <td>
+                                                            <h5>{{ $item->author_book }}</h5>
+                                                        </td>
+                                                        <td>{{$item->total_views}}</td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
-                                        @can('create users', User::class)
-                                        <a href="/administrator/comments/export" class="btn btn-success mt-3">Export
-                                            Excel</a>
-                                        @endcan
+                                        {{-- @can('create users', User::class)
+                                            <a href="/administrator/comments/export" class="btn btn-success mt-3">Export
+                                                Excel</a>
+                                        @endcan --}}
+                                    </div>
+                                </div>
+
+                                <div class="d-widget mt-2">
+                                    <div class="d-widget-title">
+                                        <h5>Ratings Books</h5>
+                                    </div>
+                                    <div class="d-widget-content">
+                                        <table class="table manage-user table-default table-responsive-md">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Cover</th>
+                                                    <th>Title Article</th>
+                                                    <th>Author</th>
+                                                    <th>Ratings</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($reviewer as $no => $item)
+                                                    <tr>
+                                                        <td>{{ $no + 1 }}</td>
+                                                        <td><img width="100" height="100" src="{{env('APP_URL')}}/api/{{$item->cover_book}}" alt="" srcset=""></td>
+                                                        <td>{{ $item->name_book }}
+                                                        </td>
+                                                        <td>
+                                                            <h5>{{ $item->author_book }}</h5>
+                                                        </td>
+                                                        <td>{{$item->avg}}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        {{-- @can('create users', User::class)
+                                            <a href="/administrator/comments/export" class="btn btn-success mt-3">Export
+                                                Excel</a>
+                                        @endcan --}}
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +150,8 @@
             <div class="slide-meta">
                 <ul class="nav nav-tabs slide-btns">
                     <li class="nav-item"><a class="active" href="#messages" data-toggle="tab">Messages</a></li>
-                    <li class="nav-item"><a class="" href="#notifications" data-toggle="tab">Notifications</a></li>
+                    <li class="nav-item"><a class="" href="#notifications" data-toggle="tab">Notifications</a>
+                    </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -170,7 +212,8 @@
                                 <figure><img src="images/resources/user4.jpg" alt=""></figure>
                                 <div class="mesg-info">
                                     <span>Alis wells</span>
-                                    <a href="#" title="">share your post <strong>a good time today!</strong></a>
+                                    <a href="#" title="">share your post <strong>a good time
+                                            today!</strong></a>
                                 </div>
                             </li>
                             <li>
@@ -184,7 +227,8 @@
                                 <figure><img src="images/resources/user1.jpg" alt=""></figure>
                                 <div class="mesg-info">
                                     <span>Alis wells</span>
-                                    <a href="#" title="">share your post <strong>a good time today!</strong></a>
+                                    <a href="#" title="">share your post <strong>a good time
+                                            today!</strong></a>
                                 </div>
                             </li>
                             <li>
