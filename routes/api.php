@@ -16,6 +16,8 @@ Route::middleware('jwt.verify', 'verified')->group(function () {
     Route::resource('bookborrow', AdminBookBorrowAPI::class);
     Route::post('bookborrow/return', [AdminBookBorrowAPI::class, 'returnback']);
 
+    Route::post('user/photo', [UserAPI::class, 'updatePhoto']);
+
     Route::post('memberphone', [AdminMemberApi::class, 'memberphone']);
     Route::get('user/history', [UserAPI::class, 'history']);
     Route::post('user/logout', [AuthAPI::class, 'logout']);

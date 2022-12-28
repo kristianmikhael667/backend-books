@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Bookborrow;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class UserAPI extends Controller
 {
@@ -44,5 +46,29 @@ class UserAPI extends Controller
             return ResponseFormatter::success($user, 'My Profile');
         }
         return ResponseFormatter::error(null, 'Error');
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseFormatter::error([
+                'error' => $validator->errors()
+            ], 'Update photo fails', 401);
+        }
+
+        if ($request->file('file')) {
+            $file = $request->file->store('post-image');
+
+            $user = Auth::user();
+
+            DB::table('users')->where('uid', $user->uid)->update([
+                'profile_photo_path' => $file,
+            ]);
+            return ResponseFormatter::success([$file], 'File successfully uploaded');
+        }
     }
 }

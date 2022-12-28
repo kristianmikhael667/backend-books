@@ -8,6 +8,7 @@ use App\Models\Catalog;
 use App\Models\QuantityBook;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -118,6 +119,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        if ($book->cover_book) {
+            Storage::delete($book->cover_book);
+        }
+        Book::destroy($book->id);
+        return redirect('/administrator/book')->with('success', 'Book has been deleted!');
     }
 }

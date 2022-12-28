@@ -18,6 +18,7 @@ class Catalog extends Migration
             $table->foreignUuid('uid')->nullable(false);
             $table->string('slug')->unique();
             $table->string('name_catalog');
+            $table->string('image_catalog', 2048)->nullable();
             $table->enum('status_book', ['active', 'non'])->default('active');
             $table->timestamps();
         });

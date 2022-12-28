@@ -13,6 +13,7 @@ class Catalog extends Model
 
     protected $guarded = ['id'];
     protected $table = 'catalog';
+    public $incrementing = false;
 
     protected static function boot()
     {

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CatalogController extends Controller
 {
@@ -15,11 +16,12 @@ class CatalogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $catalog = DB::table('catalog')->orderBy('created_at', 'desc')->get();
         return view('admin.catalog-book', [
             'page' => 'Administrator',
+            'url' => env('BASE_URL'),
             'categories' => $catalog
         ]);
     }
@@ -46,7 +48,13 @@ class CatalogController extends Controller
     {
         $validatedData = $request->validate([
             'name_catalog' => 'required',
+            'image_catalog'  => 'image|file|max:1024',
         ]);
+
+        if ($request->file('image_catalog')) {
+            $validatedData['image_catalog'] = $request->file('image_catalog')->store('post-image');
+        }
+
         $validatedData['parent'] = $request->parent ? $request->parent : 0;
         $slug = SlugService::createSlug(Catalog::class, 'slug', $request->name_catalog);
         $validatedData['slug'] = $slug;
@@ -94,8 +102,14 @@ class CatalogController extends Controller
      * @param  \App\Models\Catalog  $catalog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Catalog $catalog)
+    public function destroy($catalog)
     {
-        //
+        $data = Catalog::where('slug',$catalog)->first();
+        if ($data->image_catalog) {
+            Storage::delete($data->image_catalog);
+        }
+        Catalog::destroy($data->id);
+        return redirect('/administrator/catalog')->with('success', 'Catalog has been deleted!');
+
     }
 }

@@ -52,6 +52,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Image</th>
                                             <th>Name</th>
                                             <th>Slug</th>
                                             <th>Created</th>
@@ -59,14 +60,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($categories as $num => $category)
+                                        @forelse ($categories as $num => $catalog)
                                         <tr>
                                             <td>{{ ++$num }}</td>
-                                            <td>{{ $category->name_catalog }}</td>
-                                            <td>{{ $category->slug }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($category->created_at)->diffForHumans() }}
+                                            <td><img width="120" src="{{ $url . $catalog->image_catalog }}" alt="" srcset=""></td>
+                                            <td>{{ $catalog->name_catalog }}</td>
+                                            <td>{{ $catalog->slug }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($catalog->created_at)->diffForHumans() }}
                                             <td>
-                                                <a href="/dashboard/posts/{{ $category->slug }}"
+                                                <a href="/dashboard/posts/{{ $catalog->slug }}"
                                                     class="badge btn-light">
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -76,7 +78,7 @@
                                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                                         <circle cx="12" cy="12" r="3"></circle>
                                                     </svg></a>
-                                                <a href="/dashboard/posts/{{ $category->slug }}/edit"
+                                                <a href="/dashboard/posts/{{ $catalog->slug }}/edit"
                                                     class="badge btn-light"><svg xmlns="http://www.w3.org/2000/svg"
                                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -88,7 +90,7 @@
                                                             d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                                         </path>
                                                     </svg></span></a>
-                                                <form action="/administrator/post/{{ $category->slug }}" method="post"
+                                                <form action="/administrator/catalog/{{ $catalog->slug }}" method="post"
                                                     class="d-inline">
                                                     @method('delete')
                                                     @csrf
