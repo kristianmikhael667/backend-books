@@ -10,6 +10,7 @@ use App\Models\Bookborrow;
 use App\Models\Member;
 use App\Models\QuantityBook;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class BookBorrowAPI extends Controller
             $token = JWTAuth::parseToken();
             $input = $request->all();
             $input['user_uid'] = $token->getPayload()->get('uid');
-            
+            $input['date_borrow'] = Carbon::now();
             // check user pending
             $checkUser = User::where('uid', $input['user_uid'])->first();
             if ($checkUser->verify == 'pending' || $checkUser->verify == 'reject') {
