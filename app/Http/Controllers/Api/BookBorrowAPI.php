@@ -77,7 +77,8 @@ class BookBorrowAPI extends Controller
             DB::table('quantity_books')->where('uid_book', $checkBook->uid)->update([
                 'qty' => $qtyBook->qty - $input['qty'],
             ]);
-
+            echo 'msk 2';
+            die;
             $data = Bookborrow::create($input);
             if ($data) {
                 return ResponseFormatter::success($data, 'Success Created Book Borrow');
