@@ -83,6 +83,7 @@ class BookBorrowAPI extends Controller
                 return ResponseFormatter::success($data, 'Success Created Book Borrow');
             }
         } catch (Exception $e) {
+            echo 'rusak pala kau';
             return ResponseFormatter::error($data = null, $e, 500);
         }
     }
