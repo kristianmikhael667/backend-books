@@ -39,7 +39,7 @@ class BookBorrowAPI extends Controller
             $token = JWTAuth::parseToken();
             $input = $request->all();
             $input['user_uid'] = $token->getPayload()->get('uid');
-
+            
             // check user pending
             $checkUser = User::where('uid', $input['user_uid'])->first();
             if ($checkUser->verify == 'pending' || $checkUser->verify == 'reject') {
@@ -77,8 +77,7 @@ class BookBorrowAPI extends Controller
             DB::table('quantity_books')->where('uid_book', $checkBook->uid)->update([
                 'qty' => $qtyBook->qty - $input['qty'],
             ]);
-            echo 'msk 2';
-            die;
+          
             $data = Bookborrow::create($input);
             if ($data) {
                 return ResponseFormatter::success($data, 'Success Created Book Borrow');
