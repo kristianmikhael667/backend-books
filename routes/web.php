@@ -31,6 +31,8 @@ Route::prefix('administrator')->middleware(['auth:sanctum', 'admin'])->group(fun
 
     // Menu Users
     Route::resource('users', UserController::class);
+    Route::get('/users/status/{id}',[UserController::class,'changestatususr']);
+
     Route::resource('catalog', CatalogController::class);
     Route::resource('book', BookController::class);
 

@@ -9,6 +9,7 @@ use App\Models\Bookborrow;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserAPI extends Controller
@@ -61,9 +62,14 @@ class UserAPI extends Controller
         }
 
         if ($request->file('file')) {
-            $file = $request->file->store('post-image');
 
             $user = Auth::user();
+            $profileold = substr($user->profile_photo_path,11);
+          
+            if ($profileold) {
+                Storage::delete($user->profile_photo_path);
+            }
+            $file = $request->file->store('post-image');
 
             DB::table('users')->where('uid', $user->uid)->update([
                 'profile_photo_path' => $file,

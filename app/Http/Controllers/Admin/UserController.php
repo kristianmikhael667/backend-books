@@ -85,6 +85,24 @@ class UserController extends Controller
         //
     }
 
+    public function changestatususr($id){
+        $uid = substr($id, 0, 1);
+        
+        if($uid == 1){
+            $status_users = "accept";
+        }
+        if($uid == 0){
+            $status_users = "reject";
+        }
+        
+        $str = substr($id, 1);
+       
+        DB::table('users')->where('uid', $str)->update([
+            'verify' => $status_users
+        ]);
+
+        return redirect('/administrator/users')->with('success', 'Users has been updated!');
+    }
     /**
      * Update the specified resource in storage.
      *
