@@ -47,10 +47,10 @@ class BookBorrowAPI extends Controller
             }
 
             // check user already member
-            $checkMember = Member::where('phone', $checkUser->phone)->first();
-            if (!$checkMember) {
-                return ResponseFormatter::error($data = null, "You haven't member", 404);
-            }
+            // $checkMember = Member::where('phone', $checkUser->phone)->first();
+            // if (!$checkMember) {
+            //     return ResponseFormatter::error($data = null, "You haven't member", 404);
+            // }
 
             // check book available
             $checkBook = ModelsBook::where('uid', $input['book_uid'])->first();
